@@ -17,9 +17,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/getUser")
-    public ResponseEntity<User> getUser(String email) {
-        User user = userService.getUser(email);
+    @GetMapping()
+    public ResponseEntity<UserDto> getUser(String email) {
+        UserDto user = userService.getUser(email);
+        //System.out.println(user);
 
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @DeleteMapping()
-    public String deleteUser(@RequestBody String email) throws Exception{
+    public String deleteUser(String email) throws Exception{
         userService.deleteUser(email);
         return "정상적으로 삭제 되었습니다.";
     }

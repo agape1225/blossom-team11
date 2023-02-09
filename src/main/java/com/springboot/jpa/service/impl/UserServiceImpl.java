@@ -20,8 +20,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String email) {
-        return userDAO.selectUser(email);
+    public UserDto getUser(String email) {
+        User selectedUser = userDAO.selectUser(email);
+        UserDto responseUser = new UserDto();
+        responseUser.setKakaoId(selectedUser.getKakaoId());
+        responseUser.setName(selectedUser.getName());
+        responseUser.setEmail(selectedUser.getEmail());
+        responseUser.setAge(selectedUser.getAge());
+
+        return responseUser;
     }
 
     @Override
