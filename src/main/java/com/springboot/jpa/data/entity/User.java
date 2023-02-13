@@ -1,11 +1,15 @@
 package com.springboot.jpa.data.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Table(name = "user")
 public class User extends BaseEntity
 {
