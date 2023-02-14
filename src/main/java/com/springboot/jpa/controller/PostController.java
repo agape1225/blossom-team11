@@ -34,6 +34,12 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(selectedPost);
     }
 
+    @GetMapping("/getAllPostsByUser")
+    public ResponseEntity<List<PostResponseDto>> getAllPostByUser(String email){
+        List<PostResponseDto> selectedPost = postService.getPostsByUser(email);
+        return ResponseEntity.status(HttpStatus.OK).body(selectedPost);
+    }
+
     @PostMapping()
     public ResponseEntity<PostResponseDto> createPost(
             @RequestBody PostDto post){

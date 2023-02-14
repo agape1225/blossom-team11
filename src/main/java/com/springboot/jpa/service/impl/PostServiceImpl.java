@@ -77,6 +77,33 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostResponseDto> getPostsByUser(String email) {
+        List<Post> postList = userDAO.selectUser(email).getPostList();
+        List<PostResponseDto> postResponseDto = new LinkedList<>();
+
+        for(Post post : postList){
+            PostResponseDto buff = new PostResponseDto();
+            UserDto userDto = new UserDto();
+
+            userDto.setAge(post.getUser().getAge());
+            userDto.setName(post.getUser().getName());
+            userDto.setEmail(post.getUser().getEmail());
+            userDto.setKakaoId(post.getUser().getKakaoId());
+
+            buff.setUser(userDto);
+            buff.setTitle(post.getTitle());
+            buff.setContent(post.getContent());
+            buff.setNumber(post.getNumber());
+            buff.setUpdatedDate(post.getUpdatedAt());
+            buff.setCreatedDate(post.getCreatedAt());
+
+            postResponseDto.add(buff);
+        }
+
+        return postResponseDto;
+    }
+
+    @Override
     public PostResponseDto savePost(PostDto post) {
         User user = userDAO.selectUser(post.getEmail());
         Post newPost = new Post();
