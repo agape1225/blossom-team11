@@ -27,9 +27,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User selectUser(String email) {
-        System.out.println(email);
         User selectedUser = userRepository.getById(email);
-        System.out.println(selectedUser.toString());
+
         return selectedUser;
     }
 
