@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface PostService {
 
-    Post getPost(Long number);
-    List<Post> getAllPost();
+    PostResponseDto getPost(Long number);
+    List<PostResponseDto> getAllPost();
     PostResponseDto savePost(PostDto post);
-    Post changePost(Post post) throws Exception;
+    PostResponseDto changePost(Long number, PostDto post) throws Exception;
     void deletePost(Long number) throws Exception;
 
 }

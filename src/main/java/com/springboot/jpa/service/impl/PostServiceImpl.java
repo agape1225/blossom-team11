@@ -6,11 +6,13 @@ import com.springboot.jpa.data.dto.PostDto;
 import com.springboot.jpa.data.dto.PostResponseDto;
 import com.springboot.jpa.data.dto.UserDto;
 import com.springboot.jpa.data.entity.Post;
+import com.springboot.jpa.data.entity.Product;
 import com.springboot.jpa.data.entity.User;
 import com.springboot.jpa.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -26,14 +28,52 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPost(Long number) {
+    public PostResponseDto getPost(Long number) {
 
-        return postDAO.selectPost(number);
+        Post selectedPost = postDAO.selectPost(number);
+        PostResponseDto postResponseDto = new PostResponseDto();
+        UserDto userDto = new UserDto();
+
+        userDto.setAge(selectedPost.getUser().getAge());
+        userDto.setName(selectedPost.getUser().getName());
+        userDto.setEmail(selectedPost.getUser().getEmail());
+        userDto.setKakaoId(selectedPost.getUser().getKakaoId());
+
+        postResponseDto.setUser(userDto);
+        postResponseDto.setTitle(selectedPost.getTitle());
+        postResponseDto.setContent(selectedPost.getContent());
+        postResponseDto.setNumber(selectedPost.getNumber());
+        postResponseDto.setUpdatedDate(selectedPost.getUpdatedAt());
+        postResponseDto.setCreatedDate(selectedPost.getCreatedAt());
+
+        return postResponseDto;
     }
 
     @Override
-    public List<Post> getAllPost() {
-        return postDAO.getAllPosts();
+    public List<PostResponseDto> getAllPost() {
+        List<Post> postList = postDAO.getAllPosts();
+        List<PostResponseDto> postResponseDto = new LinkedList<>();
+
+        for(Post post : postList){
+            PostResponseDto buff = new PostResponseDto();
+            UserDto userDto = new UserDto();
+
+            userDto.setAge(post.getUser().getAge());
+            userDto.setName(post.getUser().getName());
+            userDto.setEmail(post.getUser().getEmail());
+            userDto.setKakaoId(post.getUser().getKakaoId());
+
+            buff.setUser(userDto);
+            buff.setTitle(post.getTitle());
+            buff.setContent(post.getContent());
+            buff.setNumber(post.getNumber());
+            buff.setUpdatedDate(post.getUpdatedAt());
+            buff.setCreatedDate(post.getCreatedAt());
+
+            postResponseDto.add(buff);
+        }
+
+        return postResponseDto;
     }
 
     @Override
@@ -55,15 +95,38 @@ public class PostServiceImpl implements PostService {
 
         responsePost.setContent(savedPost.getContent());
         responsePost.setTitle(savedPost.getTitle());
+        responsePost.setNumber(savedPost.getNumber());
         responsePost.setUser(userDto);
+        responsePost.setCreatedDate(savedPost.getCreatedAt());
+        responsePost.setUpdatedDate(savedPost.getUpdatedAt());
 
         return responsePost;
     }
 
     @Override
-    public Post changePost(Post post) throws Exception {
-        Post updatedPost = postDAO.updatePost(post);
-        return updatedPost;
+    public PostResponseDto changePost(Long number, PostDto post) throws Exception {
+        Post newPost = postDAO.selectPost(number);
+        newPost.setContent(post.getContent());
+        newPost.setTitle(post.getTitle());
+
+        Post updatedPost = postDAO.updatePost(newPost);
+
+        PostResponseDto postResponseDto = new PostResponseDto();
+        UserDto updatedUser = new UserDto();
+
+        updatedUser.setKakaoId(updatedPost.getUser().getKakaoId());
+        updatedUser.setName(updatedPost.getUser().getName());
+        updatedUser.setEmail(updatedPost.getUser().getEmail());
+        updatedUser.setAge(updatedPost.getUser().getAge());
+
+        postResponseDto.setUser(updatedUser);
+        postResponseDto.setContent(updatedPost.getContent());
+        postResponseDto.setTitle(updatedPost.getTitle());
+        postResponseDto.setNumber(updatedPost.getNumber());
+        postResponseDto.setUpdatedDate(updatedPost.getUpdatedAt());
+        postResponseDto.setCreatedDate(updatedPost.getUpdatedAt());
+
+        return postResponseDto;
     }
 
     @Override
