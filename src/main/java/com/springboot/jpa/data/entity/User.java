@@ -1,5 +1,6 @@
 package com.springboot.jpa.data.entity;
 
+import com.springboot.jpa.constant.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,4 +32,11 @@ public class User extends BaseEntity
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Post> postList = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    private String password;
+
+    private String univ;
 }
