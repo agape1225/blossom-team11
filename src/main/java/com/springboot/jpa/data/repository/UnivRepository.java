@@ -14,4 +14,6 @@ import java.util.Optional;
 public interface UnivRepository extends JpaRepository<Univ, Long> {
 
     Optional<Univ> findByUnivNm(String univNm);
+
+    Univ findByDomain(String domain);
 }
