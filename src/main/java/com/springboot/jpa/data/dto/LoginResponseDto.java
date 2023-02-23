@@ -8,9 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
-public class UserDto {
+public class LoginResponseDto {
     private String email;
-    private String age;
-    private String kakaoId;
-    private String name;
+    private String password;
+    private Role role;
 }

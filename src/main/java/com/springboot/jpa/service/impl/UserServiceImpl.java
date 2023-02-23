@@ -2,6 +2,8 @@ package com.springboot.jpa.service.impl;
 
 import com.springboot.jpa.constant.Role;
 import com.springboot.jpa.data.dao.UserDAO;
+import com.springboot.jpa.data.dto.LoginDto;
+import com.springboot.jpa.data.dto.LoginResponseDto;
 import com.springboot.jpa.data.dto.UserDto;
 import com.springboot.jpa.data.dto.UserFormDto;
 import com.springboot.jpa.data.entity.User;
@@ -98,7 +100,7 @@ public class UserServiceImpl implements UserService {
         newUser.setAge(user.getAge());
         newUser.setCreatedAt(LocalDateTime.now());
         newUser.setUpdatedAt(LocalDateTime.now());
-        newUser.setRole(Role.USER);
+        newUser.setRole(Role.ROLE_USER);
         newUser.setUniv(validateEmail(user));
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -114,6 +116,17 @@ public class UserServiceImpl implements UserService {
         //responsedUser.setPassword(updatedUser.getPassword());
 
         return responsedUser;
+    }
+
+    @Override
+    public LoginResponseDto getLoginUser(String email) {
+        User selectedUser = userDAO.selectUser(email);
+        LoginResponseDto responseUser = new LoginResponseDto();
+        responseUser.setEmail(selectedUser.getEmail());
+        responseUser.setPassword(selectedUser.getPassword());
+        responseUser.setRole(selectedUser.getRole());
+
+        return responseUser;
     }
 
     private void validateDuplicateUser(UserFormDto user) {
