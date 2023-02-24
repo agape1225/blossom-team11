@@ -28,7 +28,7 @@ public class MailSenderServiceImpl {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         helper.setTo(email);
-        helper.setSubject("강남대학교 멋쟁이사자처럼 서류전형 결과 공지");
+        helper.setSubject("인증메일");
 
         //템플릿에 전달할 데이터 설정
         Context context = new Context();
