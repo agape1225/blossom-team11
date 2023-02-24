@@ -29,7 +29,7 @@ public class UnivServiceImpl implements UnivService {
 
         UnivResponseDto univResponseDto = new UnivResponseDto();
         univResponseDto.setUnivNm(univ.getUnivNm());
-        univResponseDto.setDomain(univ.getLogo());
+        univResponseDto.setDomain(univ.getDomain());
         univResponseDto.setLogo(univ.getLogo());
 
         return Optional.of(univResponseDto);
@@ -52,7 +52,7 @@ public class UnivServiceImpl implements UnivService {
         Univ univ = new Univ();
         univ.setUnivNm(univDto.getUnivNm());
         univ.setDomain(univDto.getDomain());
-        univ.setLogo(univDto.getDomain());
+        univ.setLogo(univDto.getLogo());
 
         Univ saveUniv = univDAO.insertUniv(univ);
 
