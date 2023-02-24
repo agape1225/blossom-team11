@@ -27,7 +27,7 @@ class univRepositoryTest {
         for(int i=1; i<=10; i++){
             Univ univ = new Univ();
             univ.setUnivNm("대학" + i);
-            univ.setDomain("domain.ac.kr");
+            univ.setDomain(i+"domain.ac.kr");
             univ.setLogo("aaaa");
 
             Univ savedUniv = univRepository.save(univ);
@@ -42,5 +42,13 @@ class univRepositoryTest {
         createItemList();
 
         System.out.println(univRepository.findByUnivNm("대학1"));
+    }
+
+    @Test
+    @DisplayName("도메인 검색")
+    public void findByDomain(){
+        createItemList();
+
+        System.out.println(univRepository.findByDomain("1domain.ac.kr"));
     }
 }
