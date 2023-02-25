@@ -10,11 +10,18 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class MailSenderServiceImpl {
     private final JavaMailSender javaMailSender;
     private SpringTemplateEngine templateEngine;
+
+    private int certCharLength = 8;
+
+    private final char[] characterTable = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+            'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
 
     @Autowired
     public MailSenderServiceImpl(JavaMailSender javaMailSender, SpringTemplateEngine springTemplateEngine){
@@ -47,4 +54,29 @@ public class MailSenderServiceImpl {
         //메일 보내기
         javaMailSender.send(message);
     }
+
+
+    //인증번호 생성
+    public String excuteGenerate() {
+        Random random = new Random(System.currentTimeMillis());
+        int tablelength = characterTable.length;
+        StringBuffer buf = new StringBuffer();
+
+        for(int i = 0; i < certCharLength; i++) {
+            buf.append(characterTable[random.nextInt(tablelength)]);
+        }
+
+        return buf.toString();
+    }
+
+    public int getCertCharLength() {
+        return certCharLength;
+    }
+
+    public void setCertCharLength(int certCharLength) {
+        this.certCharLength = certCharLength;
+    }
+
+
+
 }
